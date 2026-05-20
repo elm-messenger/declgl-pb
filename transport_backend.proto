@@ -138,3 +138,33 @@ message BackendEvent {
     ProgramCreateFail program_createfail = 6;
   }
 }
+
+message UpdateTick {
+  double ts = 1;
+}
+
+message MouseEvent {
+  uint32 button = 1;
+  double x = 2;
+  double y = 3;
+}
+
+message MouseMoveEvent {
+  double x = 1;
+  double y = 2;
+}
+
+message KeyboardEvent {
+  string code = 1;
+}
+
+message Event {
+  oneof kind {
+    UpdateTick update_tick = 1;
+    MouseEvent mouse_down = 2;
+    MouseEvent mouse_up = 3;
+    MouseMoveEvent mouse_move = 4;
+    KeyboardEvent key_down = 5;
+    KeyboardEvent key_up = 6;
+  }
+}
