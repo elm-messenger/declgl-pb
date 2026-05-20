@@ -124,7 +124,7 @@ message ProgramCreated {
   string name = 1;
 }
 
-message ProgramCreatFail {
+message ProgramCreateFail {
   string name = 1;
 }
 
