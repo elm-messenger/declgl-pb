@@ -108,7 +108,15 @@ message TextureLoaded {
   uint32 height = 3;
 }
 
+message TextureLoadFail {
+  string name = 1;
+}
+
 message FontLoaded {
+  string name = 1;
+}
+
+message FontLoadFail {
   string name = 1;
 }
 
@@ -116,10 +124,17 @@ message ProgramCreated {
   string name = 1;
 }
 
+message ProgramCreatFail {
+  string name = 1;
+}
+
 message BackendEvent {
   oneof kind {
     TextureLoaded texture_loaded = 1;
+    TextureLoadFail texture_loadfail = 4;
     FontLoaded font_loaded = 2;
+    FontLoadFail font_loadfail = 5;
     ProgramCreated program_created = 3;
+    ProgramCreatFail program_createfail = 6;
   }
 }
