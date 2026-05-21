@@ -29,6 +29,19 @@ message TextureOptions {
   TextureMagOption mag = 1;
   TextureMinOption min = 2;
   TextureCrop crop = 3;
+  // When true (the default), the loader multiplies each texel's RGB
+  // by its alpha *at upload time* so the GPU stores the texture in
+  // premultiplied form. This is correct for the engine's
+  // (GL_ONE, GL_ONE_MINUS_SRC_ALPHA) blend equation and avoids the
+  // straight-alpha edge-bleed artifact that occurs when bilinear
+  // filtering averages an opaque-RGB-but-alpha-zero texel with a
+  // visible neighbour. Set to false for textures whose RGB channels
+  // are not pre-attenuated colour data — e.g. SDF / MSDF font
+  // atlases — where multiplying by alpha would corrupt the signal.
+  // Encoded as an `enum`-style bool to keep the proto3 default
+  // (which is `false` for plain bools) from silently disabling
+  // premultiplication for callers that don't set the field.
+  bool no_premultiply_alpha = 4;
 }
 
 message LoadTexture {
