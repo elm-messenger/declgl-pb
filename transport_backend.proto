@@ -101,6 +101,24 @@ message LoadAudio {
   string audio_url = 1;
 }
 
+// Unload kinds — symmetric reverse of LoadTexture / LoadFont /
+// LoadAudio. The handler frees the GPU resource first (glDeleteTextures
+// where applicable) and then the CPU-side metadata; missing names are
+// silent no-ops, matching the Load*'s permissive behaviour. Identity
+// keys mirror the Load*: textures + fonts use [name]; audio uses
+// [audio_url] because LoadAudio doesn't carry a separate name.
+message UnloadTexture {
+  string name = 1;
+}
+
+message UnloadFont {
+  string name = 1;
+}
+
+message UnloadAudio {
+  string audio_url = 1;
+}
+
 
 message BackendCommand {
   oneof kind {
@@ -110,6 +128,9 @@ message BackendCommand {
     StartRegl start_regl = 4;
     CreateProgram create_program = 5;
     LoadAudio load_audio = 6;
+    UnloadTexture unload_texture = 7;
+    UnloadFont unload_font = 8;
+    UnloadAudio unload_audio = 9;
   }
 }
 
