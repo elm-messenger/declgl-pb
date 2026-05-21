@@ -4,6 +4,8 @@ package mlregl.transport.backend;
 
 import "transport_common.proto";
 
+option optimize_for = LITE_RUNTIME;
+
 message TextureCrop {
   int32 x = 1;
   int32 y = 2;

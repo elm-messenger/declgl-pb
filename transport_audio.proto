@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package mlregl.transport.audio;
 
+option optimize_for = LITE_RUNTIME;
+
 message VolumePoint {
   double time = 1;
   double volume = 2;

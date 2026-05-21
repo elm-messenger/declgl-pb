@@ -4,6 +4,8 @@ package mlregl.transport.render;
 
 import "transport_common.proto";
 
+option optimize_for = LITE_RUNTIME;
+
 
 message Camera {
   double x = 1;
