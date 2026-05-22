@@ -212,6 +212,11 @@ message UpdateTick {
 }
 
 message MouseEvent {
+  // 1-based button index following the SDL_BUTTON_* convention:
+  //   1 = left, 2 = middle, 3 = right, 4 = x1 (back), 5 = x2 (forward).
+  // The desktop bridge ships SDL's ev.button.button straight through; the JS
+  // host adds 1 to the browser MouseEvent.button (which is 0-based) before
+  // shipping, so OCaml apps see a single button-numbering convention.
   uint32 button = 1;
   double x = 2;
   double y = 3;
@@ -223,6 +228,12 @@ message MouseMoveEvent {
 }
 
 message KeyboardEvent {
+  // Key name in SDL's vocabulary (i.e. the string SDL_GetKeyName returns,
+  // e.g. "A", "Space", "Return", "Up", "Left Shift", "F5"). The desktop
+  // bridge calls SDL_GetKeyName directly. The JS host translates the
+  // browser KeyboardEvent.code (layout-independent, e.g. "KeyA",
+  // "ArrowLeft", "ShiftLeft") into the same SDL names; unknown codes fall
+  // through as-is with a console.warn.
   string code = 1;
 }
 
