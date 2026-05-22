@@ -59,7 +59,34 @@ message LoadFont {
 }
 
 message ReglConfig {
-  double interval_ms = 1;
+  // Exactly one of these per ConfigRegl command — pacing changes and
+  // window changes are independent enough that mixing them in a single
+  // message creates ambiguity (e.g. "interval_ms not set" vs "set to
+  // auto") which proto3's default rules can't disambiguate cleanly.
+  oneof config {
+    // Frame pacing target. Special values:
+    //   <= 0 : "auto" — vsync / requestAnimationFrame.
+    //   >  0 : target frame interval in milliseconds (e.g. 33.33 ≈ 30 fps).
+    double interval_ms = 1;
+
+    // Window flags applied any time after StartRegl. ConfigRegl arriving
+    // before StartRegl is ignored — by design users shouldn't configure
+    // before the window exists.
+    WindowConfig window = 2;
+  }
+}
+
+// Each field is `optional`; absent fields leave the current value
+// untouched. `fullscreen=true` -> fullscreen on, `false` -> windowed.
+// `resizable=true`  -> resizable on, `false` -> fixed-size.
+message WindowConfig {
+  optional bool fullscreen = 1;
+  optional bool resizable = 2;
+}
+
+message QuitRegl {
+  // Reserved for future use (e.g. exit code surfaced to the host
+  // process); empty for now.
 }
 
 message StartRegl {
@@ -131,6 +158,7 @@ message BackendCommand {
     UnloadTexture unload_texture = 7;
     UnloadFont unload_font = 8;
     UnloadAudio unload_audio = 9;
+    QuitRegl quit_regl = 10;
   }
 }
 
