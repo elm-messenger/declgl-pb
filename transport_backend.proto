@@ -94,6 +94,10 @@ message StartRegl {
   double virt_height = 2;
   uint32 fbo_num = 3;
   common.StringArray builtin_programs = 4;
+  // Initial window flags. Same semantics as ConfigRegl's WindowConfig:
+  // each field is `optional`, absent = use the platform default. The
+  // backend reads this exactly once when creating the SDL window.
+  WindowConfig window = 5;
 }
 
 message ProgramValue {
