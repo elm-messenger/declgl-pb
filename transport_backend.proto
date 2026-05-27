@@ -150,6 +150,19 @@ message UnloadAudio {
   string audio_url = 1;
 }
 
+message SaveValue {
+  string key = 1;
+  string value = 2;
+}
+
+message ReadValue {
+  string key = 1;
+}
+
+message LoadFile {
+  string path = 1;
+}
+
 
 message BackendCommand {
   oneof kind {
@@ -163,6 +176,9 @@ message BackendCommand {
     UnloadFont unload_font = 8;
     UnloadAudio unload_audio = 9;
     QuitRegl quit_regl = 10;
+    SaveValue save_value = 11;
+    ReadValue read_value = 12;
+    LoadFile load_file = 13;
   }
 }
 
@@ -196,6 +212,25 @@ message ProgramCreateFail {
   string name = 1;
 }
 
+message ValueRead {
+  string key = 1;
+  string value = 2;
+}
+
+message ValueReadMissing {
+  string key = 1;
+}
+
+message FileLoaded {
+  string path = 1;
+  string data = 2;
+}
+
+message FileLoadFailed {
+  string path = 1;
+  string reason = 2;
+}
+
 message BackendEvent {
   oneof kind {
     TextureLoaded texture_loaded = 1;
@@ -204,6 +239,10 @@ message BackendEvent {
     FontLoadFail font_loadfail = 5;
     ProgramCreated program_created = 3;
     ProgramCreateFail program_createfail = 6;
+    ValueRead value_read = 7;
+    ValueReadMissing value_read_missing = 8;
+    FileLoaded file_loaded = 9;
+    FileLoadFailed file_load_failed = 10;
   }
 }
 
