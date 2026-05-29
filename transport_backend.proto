@@ -98,6 +98,16 @@ message StartRegl {
   // each field is `optional`, absent = use the platform default. The
   // backend reads this exactly once when creating the SDL window.
   WindowConfig window = 5;
+  // Application identifier used by the backend to scope on-disk state:
+  //   - asset reads are confined to <SDL_GetBasePath()>/ (the directory
+  //     that contains the running executable); paths in load commands
+  //     are resolved relative to this root and rejected if absolute or
+  //     if they escape the root via "..".
+  //   - key/value persistence (SaveValue / ReadValue) is stored under
+  //     SDL_GetPrefPath(app_name, "") so different apps don't collide.
+  // Empty string falls back to "declgl" for the pref path; asset root
+  // resolution is unaffected by this field.
+  string app_name = 6;
 }
 
 message ProgramValue {
@@ -194,6 +204,11 @@ message TextureLoaded {
 
 message TextureLoadFail {
   string name = 1;
+  // Human-readable failure reason. The backend prefixes path-policy
+  // rejections (absolute path / traversal outside the asset root)
+  // with "path_rejected: " so clients can pattern-match on the prefix
+  // to distinguish a policy denial from a regular I/O or decode miss.
+  string reason = 2;
 }
 
 message FontLoaded {
@@ -202,6 +217,8 @@ message FontLoaded {
 
 message FontLoadFail {
   string name = 1;
+  // Same convention as TextureLoadFail.reason.
+  string reason = 2;
 }
 
 message ProgramCreated {
@@ -228,6 +245,8 @@ message FileLoaded {
 
 message FileLoadFailed {
   string path = 1;
+  // Human-readable failure reason. Same "path_rejected: " prefix
+  // convention as TextureLoadFail.reason for policy rejections.
   string reason = 2;
 }
 
