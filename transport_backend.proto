@@ -73,6 +73,11 @@ message ReglConfig {
     // before StartRegl is ignored — by design users shouldn't configure
     // before the window exists.
     WindowConfig window = 2;
+
+    // Maximum completed asset-load jobs to upload/register per rendered frame.
+    // 0 means unlimited. Desktop uses this to smooth bursts of completed
+    // async texture/font/file/audio jobs.
+    uint32 max_assets_per_frame = 3;
   }
 }
 
