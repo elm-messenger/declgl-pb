@@ -128,6 +128,15 @@ message ProgramValueMapping {
   ProgramValue val = 5;
 }
 
+enum ShaderLanguage {
+  // Native shader source for the active renderer. This remains the default so
+  // existing protobuf producers continue to submit desktop GLSL unchanged.
+  SHADER_LANGUAGE_GLSL = 0;
+  // WebGL 1 / GLSL ES 1.00 source. The desktop GL backend translates this to
+  // its native GLSL version before compilation.
+  SHADER_LANGUAGE_GLSL_ES_100 = 1;
+}
+
 message Program {
   string frag = 1;
   string vert = 2;
@@ -136,6 +145,7 @@ message Program {
   ProgramValue primitive = 5;
   ProgramValue elements = 6;
   ProgramValue count = 7;
+  ShaderLanguage shader_language = 8;
 }
 
 message CreateProgram {
