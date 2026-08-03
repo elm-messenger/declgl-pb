@@ -44,6 +44,10 @@ message TextureOptions {
   // (which is `false` for plain bools) from silently disabling
   // premultiplication for callers that don't set the field.
   bool no_premultiply_alpha = 4;
+  // Opt-in row reversal used by host runtimes whose source API uploads
+  // DOM images with WebGL's UNPACK_FLIP_Y_WEBGL enabled. Native callers
+  // leave this false and retain the desktop loader's existing orientation.
+  bool flip_y = 5;
 }
 
 message LoadTexture {
