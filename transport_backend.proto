@@ -108,10 +108,10 @@ message StartRegl {
   // backend reads this exactly once when creating the SDL window.
   WindowConfig window = 5;
   // Application identifier used by the backend to scope on-disk state:
-  //   - asset reads are confined to <SDL_GetBasePath()>/ (the directory
-  //     that contains the running executable); paths in load commands
-  //     are resolved relative to this root and rejected if absolute or
-  //     if they escape the root via "..".
+  //   - asset reads are confined to the process working directory (or an
+  //     explicit host-provided asset root); paths in load commands are resolved
+  //     relative to this root and rejected if absolute or if they escape the
+  //     root via "..".
   //   - key/value persistence (SaveValue / ReadValue) is stored under
   //     SDL_GetPrefPath(app_name, "") so different apps don't collide.
   // Empty string falls back to "declgl" for the pref path; asset root
