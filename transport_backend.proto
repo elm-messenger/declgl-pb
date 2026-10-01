@@ -88,9 +88,14 @@ message ReglConfig {
 // Each field is `optional`; absent fields leave the current value
 // untouched. `fullscreen=true` -> fullscreen on, `false` -> windowed.
 // `resizable=true`  -> resizable on, `false` -> fixed-size.
+// `title` -> UTF-8 window title; an empty string is a valid (blank) title.
+// The desktop host applies it to the native window and uses "declgl" when
+// StartRegl leaves it unset. The browser host sets `document.title` and
+// otherwise keeps the page's own title.
 message WindowConfig {
   optional bool fullscreen = 1;
   optional bool resizable = 2;
+  optional string title = 3;
 }
 
 message QuitRegl {
